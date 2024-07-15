@@ -38,6 +38,4 @@ export function initServer(options: ServerOptions | undefined = undefined) {
   }
 
   socket = new Server(httpsServer);
-
-
 }

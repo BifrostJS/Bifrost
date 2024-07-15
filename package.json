@@ -17,6 +17,7 @@
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@types/uuid": "^10.0.0",
     "cac": "^6.7.14",
     "consola": "^3.2.3",
     "esbuild": "^0.23.0",
@@ -29,6 +30,7 @@
     "unplugin-auto-import": "^0.17.6"
   },
   "dependencies": {
-    "socket.io": "^4.7.5"
+    "socket.io": "^4.7.5",
+    "uuid": "^10.0.0"
   }
 }
