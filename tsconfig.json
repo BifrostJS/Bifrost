@@ -1,0 +1,16 @@
+{
+    "include": [],
+    "compilerOptions": {
+      "esModuleInterop": true,
+      "resolveJsonModule": true,
+      "target": "ES2022",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "strict": true,
+        "declaration": false,
+        "noImplicitOverride": true,
+        "noUnusedLocals": true,
+        "useUnknownInCatchVariables": false,
+        "lib": ["ESNext", "DOM"],
+    }
+  }
