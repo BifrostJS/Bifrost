@@ -40,7 +40,7 @@ import json from '@rollup/plugin-json';
     consola.start("Building project...");
 
     let bundle: RollupBuild | undefined
-    let startTime: number;
+    //let startTime: number;
 
     try {
         if(!defaultOptions.rollupOptions) throw new Error('No rollup options provided')
@@ -61,7 +61,7 @@ import json from '@rollup/plugin-json';
   }
 
 
-  async function generateOutputs(bundle) {
+  async function generateOutputs(bundle: RollupBuild) {
     consola.start('Generating outputs...')
     if(!defaultOptions.rollupOptions?.output) throw new Error('No output options provided')
       
@@ -70,6 +70,6 @@ import json from '@rollup/plugin-json';
       // generate output specific code in-memory
       // you can call this function multiple times on the same bundle object
       // replace bundle.generate with bundle.write to directly write to disk
-      const { output } = await bundle.write(outputOptions);
+      await bundle.write(outputOptions);
     }
   }
