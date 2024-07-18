@@ -1,17 +1,11 @@
-import { GameOptions, initGameServer } from "./core/game";
-import { ServerOptions } from "./core/socketServer";
-import { BuildOptions } from "./node/build";
+import { initGameServer } from './core/game';
+import { getConfig, defineConfig } from './node/config';
 
-export interface BifrostOptions {
-    game?: GameOptions, 
-    build?: BuildOptions,
-    serverOptions?: ServerOptions
-}
-
-
-export function createBifrost(options: BifrostOptions) {
+export async function createBifrost() {
+    const options = await getConfig()
     initGameServer(options)
 }
 
-export { defineConfig, getConfig } from './node/config';
+export { defineConfig, getConfig }
 export { onTick, clearTick } from './core/game';
+export { Player } from './core/player';
