@@ -1,6 +1,8 @@
-import { readFile } from "node:fs/promises";
 import { createServer, Server } from "node:https";
 import { WebSocketServer } from 'ws';
+import { v7 as uuidv7 } from 'uuid';
+import { addPlayer } from "./playerManager";
+import { ISocket } from "../types/Connection";
 
 export interface ServerOptions {
     ssl?: {
@@ -14,9 +16,7 @@ export interface ServerOptions {
 let wss: WebSocketServer;
 let httpsServer: Server | undefined = undefined;
 
-
-const hasSSL = false;
-
+//const hasSSL = false;
 
 export function initServer(options: ServerOptions | undefined = undefined) {
   if(options && options.ssl) {
@@ -42,8 +42,11 @@ export function initServer(options: ServerOptions | undefined = undefined) {
   console .log("Server started on port " + (options?.port ?? 3000));
 
 
-  wss.on('connection', function connection(ws) {
+  wss.on('connection', function connection(ws:ISocket) {
     console.log("New connection");
+    ws.id = uuidv7();
+
+    addPlayer(ws);
 
     ws.on('error', console.error);
   
