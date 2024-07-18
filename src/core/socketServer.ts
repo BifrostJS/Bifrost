@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
-import { createServer, Server as ServerType } from "node:https";
-import { Server } from "socket.io";
+import { createServer, Server } from "node:https";
+import { WebSocketServer } from 'ws';
 
 export interface ServerOptions {
     ssl?: {
@@ -11,8 +11,8 @@ export interface ServerOptions {
 
 }
 
-let socket: Server;
-let httpsServer: ServerType | undefined = undefined;
+let wss: WebSocketServer;
+let httpsServer: Server | undefined = undefined;
 
 
 const hasSSL = false;
@@ -37,5 +37,18 @@ export function initServer(options: ServerOptions | undefined = undefined) {
         
   }
 
-  socket = new Server(httpsServer);
+  wss = new WebSocketServer(httpsServer ? { server: httpsServer } : { port: options?.port ?? 3000 });
+
+  console .log("Server started on port " + (options?.port ?? 3000));
+
+
+  wss.on('connection', function connection(ws) {
+    console.log("New connection");
+
+    ws.on('error', console.error);
+  
+    ws.on('message', function message(data) {
+      console.log('received: %s', data);
+    });
+  });
 }
