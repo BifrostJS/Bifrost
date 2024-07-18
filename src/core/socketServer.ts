@@ -1,7 +1,7 @@
 import { createServer, Server } from "node:https";
 import { WebSocketServer } from 'ws';
 import { v7 as uuidv7 } from 'uuid';
-import { addPlayer } from "./playerManager";
+import { addPlayer, removePlayer } from "./playerManager";
 import { ISocket } from "../types/Connection";
 
 export interface ServerOptions {
@@ -52,6 +52,11 @@ export function initServer(options: ServerOptions | undefined = undefined) {
   
     ws.on('message', function message(data) {
       console.log('received: %s', data);
+    });
+
+    ws.on('close', function close() {
+      console.log('disconnected');
+      removePlayer(ws.id);
     });
   });
 }
