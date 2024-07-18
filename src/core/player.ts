@@ -9,7 +9,7 @@ export class Player {
         console.log("Player connected");
     }
 
-    public onDisconnect() {
+    public async onDisconnect() {
         console.log("Player disconnected");
     }
 
