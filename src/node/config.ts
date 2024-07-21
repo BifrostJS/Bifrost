@@ -1,7 +1,7 @@
 import { GameOptions } from '../core/game';
 import { ServerOptions } from '../core/socketServer';
 import { BuildOptions } from './build';
-import * as path from 'node:path';
+import { createDefineConfig, loadConfig } from "c12";
 
 export interface BifrostConfig {
     /**
@@ -14,11 +14,13 @@ export interface BifrostConfig {
     server?: ServerOptions;
 }
 
-export function defineConfig(config: BifrostConfig) {
-    return config;
-}
+export const defineConfig = createDefineConfig<BifrostConfig>();
 
 export async function getConfig() {
-    const config = await import(path.resolve(process.cwd(), 'bifrost.config.ts'));
-    return config.default() as BifrostConfig;
+
+    const config = await loadConfig({
+        configFile: 'bifrost.config',
+    });
+
+    return config.config as BifrostConfig;
 }
