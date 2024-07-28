@@ -6,9 +6,13 @@ import type {
     RollupOptions,
   } from 'rollup'
 import esbuild from 'rollup-plugin-esbuild'
-import { nodeResolve } from '@rollup/plugin-node-resolve';
+import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
+import AutoImport from 'unplugin-auto-import/rollup'
+import autoExecutionsRollup from "./rollup/autoExecutions"
+import virtual from '@rollup/plugin-virtual'
+import { scanForAutoExecutions } from "./autoExecutions";
 
   export interface BuildOptions {
     /**
@@ -26,13 +30,30 @@ import json from '@rollup/plugin-json';
     out: 'dist',
     rollupOptions: {
       input: {
-        index: 'src/main.ts'
+        index: 'src/main.ts',
+        autoExecutions: "autoExecutions"
       },
       output: [{
         dir: 'dist',
 		    format: 'cjs'
       }],
-      plugins: [esbuild(), commonjs(), json(), nodeResolve()]
+      plugins: [
+        autoExecutionsRollup(),
+        esbuild(),
+        commonjs(),
+        json(),
+        resolve(),
+        AutoImport({
+          dirs: [],
+          dts: true,
+          imports: [
+
+          ]
+        }),
+        virtual({
+          autoExecutions: scanForAutoExecutions()
+        })
+      ]
     },
   }
 
