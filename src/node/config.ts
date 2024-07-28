@@ -1,5 +1,5 @@
-import { GameOptions } from '../core/game';
-import { ServerOptions } from '../core/socketServer';
+import { GameOptions } from '../core/game/game';
+import { ServerOptions } from '../core/network/socketServer';
 import { BuildOptions } from './build';
 import { createDefineConfig, loadConfig } from "c12";
 
