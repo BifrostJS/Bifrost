@@ -1,8 +1,9 @@
 import { createServer, Server } from "node:https";
 import { WebSocketServer } from 'ws';
 import { v7 as uuidv7 } from 'uuid';
-import { addPlayer, removePlayer } from "./playerManager";
-import { ISocket } from "../types/Connection";
+import { addPlayer, removePlayer } from "../managers/playerManager";
+import { ISocket } from "../../types/Connection";
+import { executeSocketEvent } from "../managers/socketEvents";
 
 export interface ServerOptions {
     ssl?: {
@@ -51,7 +52,15 @@ export function initServer(options: ServerOptions | undefined = undefined) {
     ws.on('error', console.error);
   
     ws.on('message', function message(data) {
-      console.log('received: %s', data);
+      console.log("Data: " + data.toString());
+      try {
+        const message = JSON.parse(data.toString());
+        if(message.type === "event") {
+          executeSocketEvent(message.event, message.data, ws);
+        }
+      } catch (error) {
+        console.error("Error parsing message", error);
+      }
     });
 
     ws.on('close', function close() {
