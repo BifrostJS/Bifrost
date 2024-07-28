@@ -1,7 +1,8 @@
-import { BifrostConfig } from "../node/config";
+import { BifrostConfig } from "../../node/config";
 import { Player } from "./player";
-import { initServer } from "./socketServer";
+import { initServer } from "../network/socketServer";
 import { v7 as uuidv7 } from 'uuid';
+//import commandHandler from "./commandHandler";
 
 export interface GameOptions {
     hz?: number // Ticks per second (default 12)
@@ -10,7 +11,7 @@ export interface GameOptions {
 
 const functionsOnTick = new Map() as Map<string, Function>;
 
-export function initGameServer(options: BifrostConfig) {
+export async function initGameServer(options: BifrostConfig) {
     console.log("Game server initialized!");
     setInterval(tick, 1000 / (options?.game?.hz??12));
 
