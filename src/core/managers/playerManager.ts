@@ -1,5 +1,5 @@
-import { Player } from "./player";
-import { ISocket } from "../types/Connection";
+import { Player } from "../game/player";
+import { ISocket } from "../../types/Connection";
 
 const players = new Map() as Map<string, Player>;
 
