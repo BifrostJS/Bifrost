@@ -12,6 +12,7 @@ export interface BifrostConfig {
     root?: string;
     build?: BuildOptions;
     server?: ServerOptions;
+    autoExecute?: string[];
 }
 
 export const defineConfig = createDefineConfig<BifrostConfig>();

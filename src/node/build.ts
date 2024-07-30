@@ -49,9 +49,6 @@ import { scanForAutoExecutions } from "./autoExecutions";
           imports: [
 
           ]
-        }),
-        virtual({
-          autoExecutions: scanForAutoExecutions()
         })
       ]
     },
@@ -65,6 +62,20 @@ import { scanForAutoExecutions } from "./autoExecutions";
 
     try {
         if(!defaultOptions.rollupOptions) throw new Error('No rollup options provided')
+          
+          if (Array.isArray(defaultOptions.rollupOptions.plugins)) {
+            defaultOptions.rollupOptions.plugins.push(
+              virtual({
+                autoExecutions: await scanForAutoExecutions()
+              })
+            )
+          } else {
+            defaultOptions.rollupOptions.plugins = [
+              virtual({
+                autoExecutions: await scanForAutoExecutions()
+              })
+            ]
+          }
 
         bundle = await rollup(defaultOptions.rollupOptions)
         await generateOutputs(bundle);
